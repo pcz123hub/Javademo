@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery.main.js"></script>
+</head>
+<body>
+<form id="myform" method="post" enctype="multipart/form-data">
+    <table style="border: thin solid">
+        <tr>
+            <td style="width: 200px;height: 200px">
+                <img id="myimg" src="">
+            </td>
+            <td>
+                <input type="file" name="files" multiple="multiple">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="width: 200px;height: 50px;text-align: center;border: thin solid">
+                <input type="button" value="提交" onclick="uploadAction()"/>
+            </td>
+        </tr>
+    </table>
+</form>
+<script>
+    function uploadAction() {
+        $.ajax({
+           url:"../fileUpload",
+           type: "POST",
+           cache: false,
+           processData: false,
+           contentType: false,
+           dataType:"json",
+           data: new FormData($('#myform')[0]),
+           success: function (data) {
+               if (data.flag==true){
+                   $("#myform").attr("style","width: 200px;height: 200px");
+                   $("#myform").attr("src",data.message);
+               }else{
+                   $("#myform").removeAttr("src");
+                   $("#myform").attr("alt",data.message);
+               }
+            }
+        });
+    }
+</script>
+</body>
+</html>

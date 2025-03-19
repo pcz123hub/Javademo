@@ -1,0 +1,5 @@
+consumer:
+  username: tom
+  age: 23
+  hobby: swim,travel,cook
+  subject: 100,150
