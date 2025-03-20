@@ -1,6 +1,6 @@
-package com.example.demo005.config;
+package com.example.demo006.config;
 
-import com.example.demo005.interceptor.LoginInterceptor;
+//import com.example.demo006.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -21,9 +21,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/backend").setViewName("/backend/index.html");
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        //拦截所有请求，包括静态资源文件
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/backend/login.html");
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        //拦截所有请求，包括静态资源文件
+//        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/backend/login.html");
+//    }
 }

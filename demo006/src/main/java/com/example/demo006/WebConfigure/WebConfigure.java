@@ -1,16 +1,4 @@
-package com.example.demo005.WebConfigure;
-
-import com.example.demo005.web.FirstServlet;
-import com.example.demo005.web.MyFilter;
-import com.example.demo005.web.MyListener;
-import com.example.demo005.web.SecondServlet;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-import java.util.Arrays;
+package com.example.demo006.WebConfigure;
 
 //使用Spring Bean 注册Java Web三大组件
 //@Configuration

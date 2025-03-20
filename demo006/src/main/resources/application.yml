@@ -4,7 +4,7 @@ spring:
   web:
     resources:
       static-locations:
-file: D:\IdeaProjects\demo006\src\main\resources\backend
+        - file:D:/IdeaProjects/demo006/src/main/resources/backend  # 注意这里 file 后加了缩进，路径中斜杠方向也可写成正斜杠
   servlet:
     multipart:
       max-file-size: 10MB
