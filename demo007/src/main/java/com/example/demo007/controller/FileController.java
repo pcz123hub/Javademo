@@ -1,6 +1,6 @@
-package com.example.demo006.controller;
+package com.example.demo007.controller;
 
-import com.example.demo006.entity.Result;
+import com.example.demo007.entity.Result;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;

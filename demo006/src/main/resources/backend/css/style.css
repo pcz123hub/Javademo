@@ -1,0 +1,723 @@
+.container-ai-input {
+    --perspective: 1000px;
+    --translateY: 45px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -2.5rem;
+    bottom: -2.5rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    transform-style: preserve-3d;
+  }
+  
+  .container-wrap {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 9;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    padding: 4px;
+    transition: all 0.3s ease;
+  }
+  
+  .container-wrap:hover {
+    padding: 0;
+  }
+  
+  .container-wrap:active {
+    transform: translateX(-50%) translateY(-50%) scale(0.95);
+  }
+  
+  .container-wrap:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-55%);
+    width: 12rem;
+    height: 11rem;
+    background-color: #dedfe0;
+    border-radius: 3.2rem;
+    transition: all 0.3s ease;
+  }
+  
+  .container-wrap:hover:after {
+    transform: translateX(-50%) translateY(-50%);
+    height: 12rem;
+  }
+  
+  .container-wrap input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+  }
+  
+  .container-wrap input:checked + .card .eyes {
+    opacity: 0;
+  }
+  
+  .container-wrap input:checked + .card .content-card {
+    width: 260px;
+    height: 160px;
+  }
+  
+  .container-wrap input:checked + .card .background-blur-balls {
+    border-radius: 20px;
+  }
+  
+  .container-wrap input:checked + .card .container-ai-chat {
+    opacity: 1;
+    visibility: visible;
+    z-index: 99999;
+    pointer-events: visible;
+  }
+  
+  .card {
+    width: 100%;
+    height: 100%;
+    /* background-color: #fff; */
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: all 0.6s ease;
+    border-radius: 3rem;
+    display: flex;
+    align-items: center;
+    transform: translateZ(50px);
+    justify-content: center;
+  }
+  
+  .card:hover {
+    box-shadow:
+      0 10px 40px rgba(0, 0, 60, 0.25),
+      inset 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+  
+  .background-blur-balls {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 100%;
+    height: 100%;
+    z-index: -10;
+    border-radius: 3rem;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.8);
+    overflow: hidden;
+  }
+  .balls {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    animation: rotate-background-balls 10s linear infinite;
+  }
+  
+  .container-wrap:hover .balls {
+    animation-play-state: paused;
+  }
+  
+  .background-blur-balls .ball {
+    width: 6rem;
+    height: 6rem;
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(30px);
+  }
+  
+  .background-blur-balls .ball.violet {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #9147ff;
+  }
+  
+  .background-blur-balls .ball.green {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #34d399;
+  }
+  
+  .background-blur-balls .ball.rosa {
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    background-color: #ec4899;
+  }
+  
+  .background-blur-balls .ball.cyan {
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background-color: #05e0f5;
+  }
+  
+  .content-card {
+    width: 12rem;
+    height: 12rem;
+    display: flex;
+    border-radius: 3rem;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  
+  .background-blur-card {
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(50px);
+  }
+  
+  .eyes {
+    position: absolute;
+    left: 50%;
+    bottom: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 52px;
+    gap: 2rem;
+    transition: all 0.3s ease;
+  
+    & .eye {
+      width: 26px;
+      height: 52px;
+      background-color: #fff;
+      border-radius: 16px;
+      animation: animate-eyes 10s infinite linear;
+      transition: all 0.3s ease;
+    }
+  }
+  
+  .eyes.happy {
+    display: none;
+    color: #fff;
+    gap: 0;
+  
+    & svg {
+      width: 60px;
+    }
+  }
+  
+  .container-wrap:hover .eyes .eye {
+    display: none;
+  }
+  
+  .container-wrap:hover .eyes.happy {
+    display: flex;
+  }
+  
+  .container-ai-chat {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 6px;
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .container-wrap .card .chat {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    padding: 4px;
+    overflow: hidden;
+    background-color: #ffffff;
+  }
+  
+  .container-wrap .card .chat .chat-bot {
+    position: relative;
+    display: flex;
+    height: 100%;
+    transition: all 0.3s ease;
+  }
+  
+  .card .chat .chat-bot textarea {
+    background-color: transparent;
+    border-radius: 16px;
+    border: none;
+    width: 100%;
+    height: 100%;
+    color: #8b8b8b;
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 10px;
+    resize: none;
+    outline: none;
+  
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 10px;
+    }
+  
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background: #dedfe0;
+      border-radius: 5px;
+    }
+  
+    &::-webkit-scrollbar-thumb:hover {
+      background: #8b8b8b;
+      cursor: pointer;
+    }
+  
+    &::placeholder {
+      color: #dedfe0;
+      transition: all 0.3s ease;
+    }
+    &:focus::placeholder {
+      color: #8b8b8b;
+    }
+  }
+  
+  .card .chat .options {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 10px;
+  
+    & button {
+      transition: all 0.3s ease;
+    }
+  }
+  
+  .card .chat .options .btns-add {
+    display: flex;
+    gap: 8px;
+  
+    & button {
+      display: flex;
+      color: rgba(0, 0, 0, 0.1);
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+  
+      &:hover {
+        transform: translateY(-5px);
+        color: #8b8b8b;
+      }
+    }
+  }
+  
+  .card .chat .options .btn-submit {
+    display: flex;
+    padding: 2px;
+    background-image: linear-gradient(to top, #ff4141, #9147ff, #3b82f6);
+    border-radius: 10px;
+    box-shadow: inset 0 6px 2px -4px rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    border: none;
+    outline: none;
+    opacity: 0.7;
+    transition: all 0.15s ease;
+  
+    & i {
+      width: 30px;
+      height: 30px;
+      padding: 6px;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      backdrop-filter: blur(3px);
+      color: #cfcfcf;
+    }
+    & svg {
+      transition: all 0.3s ease;
+    }
+    &:hover {
+      opacity: 1;
+      & svg {
+        color: #f3f6fd;
+        filter: drop-shadow(0 0 5px #ffffff);
+      }
+    }
+  
+    &:focus svg {
+      color: #f3f6fd;
+      filter: drop-shadow(0 0 5px #ffffff);
+      transform: scale(1.2) rotate(45deg) translateX(-2px) translateY(1px);
+    }
+  
+    &:active {
+      transform: scale(0.92);
+    }
+  }
+  
+  .area:nth-child(15):hover ~ .container-wrap .card,
+  .area:nth-child(15):hover ~ .container-wrap .eyes .eye {
+    transform: perspective(var(--perspective)) rotateX(-15deg) rotateY(15deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  .area:nth-child(14):hover ~ .container-wrap .card,
+  .area:nth-child(14):hover ~ .container-wrap .eyes .eye {
+    transform: perspective(var(--perspective)) rotateX(-15deg) rotateY(7deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  .area:nth-child(13):hover ~ .container-wrap .card,
+  .area:nth-child(13):hover ~ .container-wrap .eyes .eye {
+    transform: perspective(var(--perspective)) rotateX(-15deg) rotateY(0)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  .area:nth-child(12):hover ~ .container-wrap .card,
+  .area:nth-child(12):hover ~ .container-wrap .eyes .eye {
+    transform: perspective(var(--perspective)) rotateX(-15deg) rotateY(-7deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  .area:nth-child(11):hover ~ .container-wrap .card,
+  .area:nth-child(11):hover ~ .container-wrap .eyes .eye {
+    transform: perspective(var(--perspective)) rotateX(-15deg) rotateY(-15deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  
+  .area:nth-child(10):hover ~ .container-wrap .card,
+  .area:nth-child(10):hover ~ .container-wrap .eyes .eye {
+    transform: perspective(var(--perspective)) rotateX(0) rotateY(15deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  .area:nth-child(9):hover ~ .container-wrap .card,
+  .area:nth-child(9):hover ~ .container-wrap .eyes .eye {
+    transform: perspective(var(--perspective)) rotateX(0) rotateY(7deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  .area:nth-child(8):hover ~ .container-wrap .card,
+  .area:nth-child(8):hover ~ .container-wrap .eyes .eye {
+    transform: perspective(var(--perspective)) rotateX(0) rotateY(0)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  .area:nth-child(7):hover ~ .container-wrap .card,
+  .area:nth-child(7):hover ~ .container-wrap .eyes .eye {
+    transform: perspective(var(--perspective)) rotateX(0) rotateY(-7deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  .area:nth-child(6):hover ~ .container-wrap .card,
+  .area:nth-child(6):hover ~ .container-wrap .eyes .eye {
+    transform: perspective(var(--perspective)) rotateX(0) rotateY(-15deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  
+  .area:nth-child(5):hover ~ .container-wrap .card,
+  .area:nth-child(5):hover ~ .container-wrap .eyes .eye {
+    transform: perspective(var(--perspective)) rotateX(15deg) rotateY(15deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  .area:nth-child(4):hover ~ .container-wrap .card,
+  .area:nth-child(4):hover ~ .container-wrap .eyes .eye {
+    transform: perspective(var(--perspective)) rotateX(15deg) rotateY(7deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  .area:nth-child(3):hover ~ .container-wrap .card,
+  .area:nth-child(3):hover ~ .container-wrap .eyes .eye {
+    transform: perspective(var(--perspective)) rotateX(15deg) rotateY(0)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  .area:nth-child(2):hover ~ .container-wrap .card,
+  .area:nth-child(2):hover ~ .container-wrap .eyes .eye {
+    transform: perspective(var(--perspective)) rotateX(15deg) rotateY(-7deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  .area:nth-child(1):hover ~ .container-wrap .card,
+  .area:nth-child(1):hover ~ .container-wrap .eyes .eye {
+    transform: perspective(var(--perspective)) rotateX(15deg) rotateY(-15deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  
+  .area:nth-child(15):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .options
+    button,
+  .area:nth-child(15):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .chat-bot {
+    transform: perspective(var(--perspective)) rotateX(-10deg) rotateY(8deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  
+  .area:nth-child(14):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .options
+    button,
+  .area:nth-child(14):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .chat-bot {
+    transform: perspective(var(--perspective)) rotateX(-10deg) rotateY(4deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  
+  .area:nth-child(13):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .options
+    button,
+  .area:nth-child(13):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .chat-bot {
+    transform: perspective(var(--perspective)) rotateX(-10deg) rotateY(0deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  
+  .area:nth-child(12):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .options
+    button,
+  .area:nth-child(12):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .chat-bot {
+    transform: perspective(var(--perspective)) rotateX(-10deg) rotateY(-4deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  
+  .area:nth-child(11):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .options
+    button,
+  .area:nth-child(11):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .chat-bot {
+    transform: perspective(var(--perspective)) rotateX(-10deg) rotateY(-8deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  
+  .area:nth-child(10):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .options
+    button,
+  .area:nth-child(10):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .chat-bot {
+    transform: perspective(var(--perspective)) rotateX(0deg) rotateY(8deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  
+  .area:nth-child(9):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .options
+    button,
+  .area:nth-child(9):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .chat-bot {
+    transform: perspective(var(--perspective)) rotateX(0deg) rotateY(4deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  
+  .area:nth-child(8):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .options
+    button,
+  .area:nth-child(8):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .chat-bot {
+    transform: perspective(var(--perspective)) rotateX(0deg) rotateY(0deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  
+  .area:nth-child(7):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .options
+    button,
+  .area:nth-child(7):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .chat-bot {
+    transform: perspective(var(--perspective)) rotateX(0deg) rotateY(-4deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  
+  .area:nth-child(6):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .options
+    button,
+  .area:nth-child(6):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .chat-bot {
+    transform: perspective(var(--perspective)) rotateX(0deg) rotateY(-8deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  
+  .area:nth-child(5):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .options
+    button,
+  .area:nth-child(5):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .chat-bot {
+    transform: perspective(var(--perspective)) rotateX(10deg) rotateY(8deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  
+  .area:nth-child(4):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .options
+    button,
+  .area:nth-child(4):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .chat-bot {
+    transform: perspective(var(--perspective)) rotateX(10deg) rotateY(4deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  
+  .area:nth-child(3):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .options
+    button,
+  .area:nth-child(3):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .chat-bot {
+    transform: perspective(var(--perspective)) rotateX(10deg) rotateY(0deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  
+  .area:nth-child(2):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .options
+    button,
+  .area:nth-child(2):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .chat-bot {
+    transform: perspective(var(--perspective)) rotateX(10deg) rotateY(-4deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  
+  .area:nth-child(1):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .options
+    button,
+  .area:nth-child(1):hover
+    ~ .container-wrap
+    .card
+    .container-ai-chat
+    .chat
+    .chat-bot {
+    transform: perspective(var(--perspective)) rotateX(10deg) rotateY(-8deg)
+      translateZ(var(--translateY)) scale3d(1, 1, 1);
+  }
+  
+  @keyframes rotate-background-balls {
+    from {
+      transform: translateX(-50%) translateY(-50%) rotate(360deg);
+    }
+    to {
+      transform: translateX(-50%) translateY(-50%) rotate(0);
+    }
+  }
+  
+  @keyframes animate-eyes {
+    46% {
+      height: 52px;
+    }
+    48% {
+      height: 20px;
+    }
+    50% {
+      height: 52px;
+    }
+    96% {
+      height: 52px;
+    }
+    98% {
+      height: 20px;
+    }
+    100% {
+      height: 52px;
+    }
+  }
+  
