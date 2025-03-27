@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>demo006</artifactId>
+    <artifactId>demo005</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>demo006</name>
+    <name>demo008</name>
     <description>Demo project for Spring Boot</description>
     <url/>
     <licenses>
@@ -45,6 +45,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
     </dependencies>
 
