@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/AdminLTE.css}">
+    <link rel="stylesheet" th:href="@{/css/pagination.css}">
+    <script th:src="@{/js/jquery.js}"></script>
+</head>
+<body>
+    <div class="box-body">
+        <!-- 新增图书按钮（管理员可见） -->
+        <div class="pull-left" th:if="${#session.getAttribute('user').role == 'ADMIN'}">
+            <div class="form-group">
+                <button type="button" class="btn btn-default" onclick="window.location.href='/book/add'">新增</button>
+            </div>
+        </div>
+
+        <!-- 搜索表单 -->
+        <div class="pull-right">
+            <div class="has-feedback">
+                <form th:action="@{/book/search}" method="post">
+                    图书名称：<input type="text" name="name">&nbsp;&nbsp;
+                    图书作者：<input type="text" name="author">&nbsp;&nbsp;
+                    <button type="submit" class="btn btn-default">查询</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- 图书表格 -->
+        <div class="table-box">
+            <table id="dataList" class="table table-bordered table-striped table-hover text-center">
+                <thead>
+                    <tr>
+                        <th>图书名称</th>
+                        <th>图书作者</th>
+                        <th>出版社</th>
+                        <th>图书状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="book : ${books}">
+                        <td th:text="${book.name}"></td>
+                        <td th:text="${book.author}"></td>
+                        <td th:text="${book.publisher}"></td> <!-- 修复：press -> publisher -->
+                        <td th:switch="${book.status}"> <!-- 优化：使用switch-case -->
+                            <span th:case="'0'">可借阅</span>
+                            <span th:case="'1'">已借中</span>
+                            <span th:case="'2'">归还中</span>
+                        </td>
+                        <td>
+                            <button th:if="${book.status == '0'}" 
+                                    class="btn bg-olive btn-xs"
+                                    th:onclick="'window.location.href=\'/book/find/' + ${book.id} + '\''">
+                                借阅
+                            </button>
+                            <button th:if="${book.status != '0'}" 
+                                    class="btn bg-olive btn-xs" 
+                                    disabled>
+                                借阅
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- 分页导航 -->
+        <div class="box-footer clearfix" th:if="${totalPages > 1}">
+            <ul class="pagination pagination-sm no-margin pull-right">
+                <li th:classappend="${currentPage == 0} ? 'disabled' : ''">
+                    <a th:href="@{/book/list(page=${currentPage - 1})}">«</a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${currentPage + 1 == i} ? 'active' : ''">
+                    <a th:href="@{/book/list(page=${i - 1})}" th:text="${i}"></a>
+                </li>
+                <li th:classappend="${currentPage == totalPages - 1} ? 'disabled' : ''">
+                    <a th:href="@{/book/list(page=${currentPage + 1})}">»</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
