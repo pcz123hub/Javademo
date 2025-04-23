@@ -20,7 +20,6 @@ class Demo009ApplicationTests {
     }
     @Test
     void saveBook(){
-        // 假设 Book 类的构造函数不需要第一个参数为 null，移除 null 参数
         Book book = new Book(null, "《天问》", "屈原", "湖南文艺出版社", "1");
         //新增图书信息
         bookRepository.save(book);
@@ -38,7 +37,7 @@ class Demo009ApplicationTests {
     @Test
     void findBook(){
             //根据作者和状态查询
-            bookRepository.findByAuthorAndStatus("屈原", "1");
+            Book b = bookRepository.findByAuthorAndStatus("屈原", "1");
             System.out.println(b);
     }
     @Test

@@ -24,4 +24,6 @@ public class Book {
     public void setPublisher(String publisher) { this.publisher = publisher; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+    @Override
+    public String toString() { return "Book{id=" + id + ", name='" + name + '\'' + ", author='" + author + '\'' + ", publisher='" + publisher + '\'' + ", status='" + status + '\'' + '}'; }
 }

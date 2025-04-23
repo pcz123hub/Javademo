@@ -81,5 +81,35 @@
             </ul>
         </div>
     </div>
+
+    <!-- 在页面中添加搜索框 -->
+    <input type="text" id="searchInput" placeholder="输入书名或作者">
+    <button onclick="doSearch()">搜索</button>
+
+    <!-- 搜索结果展示区域 -->
+    <div id="searchResults"></div>
+
+    <script>
+    // 实时搜索函数
+    function doSearch() {
+        const keyword = document.getElementById('searchInput').value;
+        
+        fetch(`/book/search?page=0&name=${encodeURIComponent(keyword)}&author=${encodeURIComponent(keyword)}`)
+            .then(response => response.json())
+            .then(data => {
+                // 更新页面内容
+                let html = '';
+                data.books.forEach(book => {
+                    html += `<div>${book.name} - ${book.author}</div>`;
+                });
+                document.getElementById('searchResults').innerHTML = html;
+            });
+    }
+    
+    // 添加输入监听实现实时搜索
+    document.getElementById('searchInput').addEventListener('input', function() {
+        doSearch();
+    });
+    </script>
 </body>
 </html>

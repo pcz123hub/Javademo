@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.ResponseBody;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("book")
@@ -72,18 +75,21 @@ model.addAttribute("book", new Book(0, "defaultName", "", "", "0"));
     }
 
     // 按条件查询图书(分页)
-    @RequestMapping("search")
-    public String searchBook(@RequestParam(defaultValue = "0") int page, Book book, Model model, HttpSession session) {
+    @RequestMapping(value = "search", produces = "application/json")
+// 为解决 'ResponseBody cannot be resolved to a type' 问题，需要导入 ResponseBody 类
+@ResponseBody
+    public Map<String, Object> searchBook(@RequestParam(defaultValue = "0") int page, 
+                                        @RequestParam(required = false) String name,
+                                        @RequestParam(required = false) String author,
+                                        HttpSession session) {
         ArrayList<Book> bs = new ArrayList<>();
-        String bname = book.getName();
-        String bauthor = book.getAuthor();
         
-        if (bname.isEmpty() && bauthor.isEmpty()) {
+        if ((name == null || name.isEmpty()) && (author == null || author.isEmpty())) {
             bs = books;
         } else {
             for (Book b : books) {
-                if ((!bname.isEmpty() && b.getName().contains(bname)) || 
-                    (!bauthor.isEmpty() && b.getAuthor().contains(bauthor))) {
+                if ((name != null && !name.isEmpty() && b.getName() != null && b.getName().contains(name)) || 
+                    (author != null && !author.isEmpty() && b.getAuthor() != null && b.getAuthor().contains(author))) {
                     bs.add(b);
                 }
             }
@@ -98,11 +104,13 @@ model.addAttribute("book", new Book(0, "defaultName", "", "", "0"));
             .limit(pageSize)
             .collect(Collectors.toList());
             
-        session.setAttribute("user", new User("zhangsan", "ADMIN"));
-        model.addAttribute("books", pageBooks);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", totalPages);
-        return "books";
+// 为解决HashMap无法解析的问题，需要导入java.util.HashMap和java.util.Map
+Map<String, Object> result = new HashMap<>();
+        result.put("books", pageBooks);
+        result.put("currentPage", page);
+        result.put("totalPages", totalPages);
+        
+        return result;
     }
 
     // 获取借阅图书编号
